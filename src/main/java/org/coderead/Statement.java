@@ -35,11 +35,7 @@ public class Statement {
 
         for (Performance performance : invoice.getPerformances()) {
 
-            volumeCredits += Math.max(performance.getAudience() - 30, 0);
-
-            if ("comedy".equals(playFor(performance).getType())) {
-                volumeCredits += Math.floor(performance.getAudience() / 5);
-            }
+            volumeCredits += volumeCreditsFor(performance);
 
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), format.format(amountFor(performance) /100), performance.getAudience()));
             totalAmount += amountFor(performance);
@@ -47,6 +43,16 @@ public class Statement {
         stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
+    }
+
+    private int volumeCreditsFor(Performance performance) {
+        int volumeCredits = 0;
+        volumeCredits += Math.max(performance.getAudience() - 30, 0);
+
+        if ("comedy".equals(playFor(performance).getType())) {
+            volumeCredits += Math.floor(performance.getAudience() / 5);
+        }
+        return volumeCredits;
     }
 
     /**
