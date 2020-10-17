@@ -34,16 +34,15 @@ public class Statement {
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
         for (Performance performance : invoice.getPerformances()) {
-            Play play = playFor(performance);
-            int thisAmount = amountFor(performance, play);
+            int thisAmount = amountFor(performance, playFor(performance));
 
             volumeCredits += Math.max(performance.getAudience() - 30, 0);
 
-            if ("comedy".equals(play.getType())) {
+            if ("comedy".equals(playFor(performance).getType())) {
                 volumeCredits += Math.floor(performance.getAudience() / 5);
             }
 
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", play.getName(), format.format(thisAmount/100), performance.getAudience()));
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), format.format(thisAmount/100), performance.getAudience()));
             totalAmount += thisAmount;
         }
         stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
