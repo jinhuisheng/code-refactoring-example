@@ -25,13 +25,13 @@ public class Statement {
     }
 
     public String show() {
-        int totalAmount = 0;
         String result = String.format("Statement for %s\n", invoice.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : invoice.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
         }
+        int totalAmount = 0;
         for (Performance performance : invoice.getPerformances()) {
             totalAmount += amountFor(performance);
         }
