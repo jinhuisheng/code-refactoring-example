@@ -29,10 +29,7 @@ public class Statement {
         String result = String.format("Statement for %s\n", invoice.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
-        int volumeCredits = 0;
-        for (Performance performance : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(performance);
-        }
+        int volumeCredits = totalVolumeCredits();
         for (Performance performance : invoice.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
             totalAmount += amountFor(performance);
@@ -40,6 +37,18 @@ public class Statement {
         stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
+    }
+
+    /**
+     * 获取观众量积分总和
+     * @return 积分值
+     */
+    private int totalVolumeCredits() {
+        int volumeCredits = 0;
+        for (Performance performance : invoice.getPerformances()) {
+            volumeCredits += volumeCreditsFor(performance);
+        }
+        return volumeCredits;
     }
 
     /**
