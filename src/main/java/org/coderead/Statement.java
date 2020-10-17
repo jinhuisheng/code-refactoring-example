@@ -31,6 +31,8 @@ public class Statement {
 
         for (Performance performance : invoice.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
+        }
+        for (Performance performance : invoice.getPerformances()) {
             totalAmount += amountFor(performance);
         }
         stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount/100)));
