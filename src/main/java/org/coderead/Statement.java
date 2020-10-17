@@ -29,9 +29,9 @@ public class Statement {
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : invoice.getPerformances()) {
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance)), performance.getAudience()));
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount() /100)));
+        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount())));
         stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
         return stringBuilder.toString();
     }
@@ -68,7 +68,7 @@ public class Statement {
     private String usd(int amount) {
         Locale locale = new Locale("en", "US");
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
-        return format.format(amount);
+        return format.format(amount /100);
     }
     /**
      * 计算观众量积分
