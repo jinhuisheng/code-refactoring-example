@@ -30,21 +30,28 @@ public class Statement {
         String result = String.format("Statement for %s\n", invoice.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
-        Locale locale = new Locale("en", "US");
-        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
-
         for (Performance performance : invoice.getPerformances()) {
 
             volumeCredits += volumeCreditsFor(performance);
 
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), format.format(amountFor(performance) /100), performance.getAudience()));
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
             totalAmount += amountFor(performance);
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
+        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
     }
 
+    /**
+     * 以美元格式化货币
+     * @param amount 数量
+     * @return 美元形式
+     */
+    private String usd(int amount) {
+        Locale locale = new Locale("en", "US");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        return format.format(amount);
+    }
     /**
      * 计算观众量积分
      * @param performance 表演
