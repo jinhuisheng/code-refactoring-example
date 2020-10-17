@@ -34,7 +34,6 @@ public class Statement {
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
         for (Performance performance : invoice.getPerformances()) {
-            int thisAmount = amountFor(performance);
 
             volumeCredits += Math.max(performance.getAudience() - 30, 0);
 
@@ -42,8 +41,8 @@ public class Statement {
                 volumeCredits += Math.floor(performance.getAudience() / 5);
             }
 
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), format.format(thisAmount/100), performance.getAudience()));
-            totalAmount += thisAmount;
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), format.format(amountFor(performance) /100), performance.getAudience()));
+            totalAmount += amountFor(performance);
         }
         stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
