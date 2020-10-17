@@ -43,11 +43,11 @@ public class Statement {
      * @return 积分值
      */
     private int totalVolumeCredits() {
-        int volumeCredits = 0;
+        int result = 0;
         for (Performance performance : invoice.getPerformances()) {
-            volumeCredits += volumeCreditsFor(performance);
+            result += volumeCreditsFor(performance);
         }
-        return volumeCredits;
+        return result;
     }
 
     /**
