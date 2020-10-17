@@ -27,7 +27,7 @@ public class Statement {
     public String show() {
         int totalAmount = 0;
         int volumeCredits = 0;
-        String result = String.format("Statement for %s", invoice.getCustomer());
+        String result = String.format("Statement for %s\n", invoice.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
         Locale locale = new Locale("en", "US");
