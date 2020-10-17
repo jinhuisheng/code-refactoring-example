@@ -45,14 +45,19 @@ public class Statement {
         return stringBuilder.toString();
     }
 
+    /**
+     * 计算观众量积分
+     * @param performance 表演
+     * @return 观众量积分
+     */
     private int volumeCreditsFor(Performance performance) {
-        int volumeCredits = 0;
-        volumeCredits += Math.max(performance.getAudience() - 30, 0);
+        int result = 0;
+        result += Math.max(performance.getAudience() - 30, 0);
 
         if ("comedy".equals(playFor(performance).getType())) {
-            volumeCredits += Math.floor(performance.getAudience() / 5);
+            result += Math.floor(performance.getAudience() / 5);
         }
-        return volumeCredits;
+        return result;
     }
 
     /**
