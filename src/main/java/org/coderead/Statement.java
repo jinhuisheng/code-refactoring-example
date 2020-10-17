@@ -31,13 +31,22 @@ public class Statement {
         for (Performance performance : invoice.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
         }
+        int totalAmount = totalAmount();
+        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount/100)));
+        stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 计算总金额
+     * @return
+     */
+    private int totalAmount() {
         int totalAmount = 0;
         for (Performance performance : invoice.getPerformances()) {
             totalAmount += amountFor(performance);
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount/100)));
-        stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
-        return stringBuilder.toString();
+        return totalAmount;
     }
 
     /**
