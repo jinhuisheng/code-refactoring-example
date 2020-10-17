@@ -35,24 +35,7 @@ public class Statement {
 
         for (Performance performance : invoice.getPerformances()) {
             Play play = plays.get(performance.getPlayId());
-            int thisAmount = 0;
-            switch (play.getType()) {
-                case "tragedy":
-                    thisAmount = 40000;
-                    if (performance.getAudience() > 30) {
-                        thisAmount += 1000 * (performance.getAudience() - 30);
-                    }
-                    break;
-                case "comedy":
-                    thisAmount = 30000;
-                    if (performance.getAudience() > 20) {
-                        thisAmount += 10000 + 500 *(performance.getAudience() - 20);
-                    }
-                    thisAmount += 300 * performance.getAudience();
-                    break;
-                default:
-                    throw new RuntimeException("unknown type:" + play.getType());
-            }
+            int thisAmount = amountFor(performance, play);
 
             volumeCredits += Math.max(performance.getAudience() - 30, 0);
 
@@ -66,5 +49,33 @@ public class Statement {
         stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
+    }
+
+    /**
+     * 计算一场戏剧演出的费用
+     * @param perf 表演
+     * @param play 表演的剧目
+     * @return
+     */
+    private int amountFor(Performance perf, Play play) {
+        int thisAmount = 0;
+        switch (play.getType()) {
+            case "tragedy":
+                thisAmount = 40000;
+                if (perf.getAudience() > 30) {
+                    thisAmount += 1000 * (perf.getAudience() - 30);
+                }
+                break;
+            case "comedy":
+                thisAmount = 30000;
+                if (perf.getAudience() > 20) {
+                    thisAmount += 10000 + 500 *(perf.getAudience() - 20);
+                }
+                thisAmount += 300 * perf.getAudience();
+                break;
+            default:
+                throw new RuntimeException("unknown type:" + play.getType());
+        }
+        return thisAmount;
     }
 }
