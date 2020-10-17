@@ -31,9 +31,9 @@ public class Statement {
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : invoice.getPerformances()) {
-
             volumeCredits += volumeCreditsFor(performance);
-
+        }
+        for (Performance performance : invoice.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance) /100), performance.getAudience()));
             totalAmount += amountFor(performance);
         }
