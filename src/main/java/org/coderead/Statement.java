@@ -34,7 +34,7 @@ public class Statement {
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
         for (Performance performance : invoice.getPerformances()) {
-            Play play = plays.get(performance.getPlayId());
+            Play play = playFor(performance);
             int thisAmount = amountFor(performance, play);
 
             volumeCredits += Math.max(performance.getAudience() - 30, 0);
@@ -49,6 +49,15 @@ public class Statement {
         stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
+    }
+
+    /**
+     * 查询表演的剧目
+     * @param perf 表演
+     * @return 剧目
+     */
+    private Play playFor(Performance perf) {
+        return plays.get(perf.getPlayId());
     }
 
     /**
