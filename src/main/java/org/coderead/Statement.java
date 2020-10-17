@@ -34,7 +34,7 @@ public class Statement {
         NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
         for (Performance performance : invoice.getPerformances()) {
-            int thisAmount = amountFor(performance, playFor(performance));
+            int thisAmount = amountFor(performance);
 
             volumeCredits += Math.max(performance.getAudience() - 30, 0);
 
@@ -62,10 +62,10 @@ public class Statement {
     /**
      * 计算一场戏剧演出的费用
      * @param perf 表演
-     * @param play 表演的剧目
      * @return
      */
-    private int amountFor(Performance perf, Play play) {
+    private int amountFor(Performance perf) {
+        Play play = playFor(perf);
         int result = 0;
         switch (play.getType()) {
             case "tragedy":
