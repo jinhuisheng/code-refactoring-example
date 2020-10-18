@@ -3,6 +3,7 @@ package org.coderead;
 import org.coderead.model.Invoice;
 import org.coderead.model.Performance;
 import org.coderead.model.Play;
+import org.coderead.model.StatementData;
 
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -25,15 +26,18 @@ public class Statement {
     }
 
     public String show() {
-        return renderPlainText();
+        StatementData data = new StatementData();
+        data.setCustomer(invoice.getCustomer());
+        return renderPlainText(data);
     }
 
     /**
      * 使用纯文本渲染
      * @return
+     * @param data 详单数据
      */
-    private String renderPlainText() {
-        String result = String.format("Statement for %s\n", invoice.getCustomer());
+    private String renderPlainText(StatementData data) {
+        String result = String.format("Statement for %s\n", data.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : invoice.getPerformances()) {
