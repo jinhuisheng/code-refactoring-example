@@ -37,6 +37,7 @@ public class Statement {
         Play play = playFor(performance);
         performance.setPlay(play);
         performance.setAmount(amountFor(performance));
+        performance.setVolumeCredits(volumeCreditsFor(performance));
         return performance;
     }
 
@@ -76,7 +77,7 @@ public class Statement {
     private int totalVolumeCredits() {
         int result = 0;
         for (Performance performance : invoice.getPerformances()) {
-            result += volumeCreditsFor(performance);
+            result += performance.getVolumeCredits();
         }
         return result;
     }
