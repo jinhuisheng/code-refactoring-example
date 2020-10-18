@@ -22,4 +22,8 @@ git checkout -b v1.0.1 v1.0.1
 ```bash
 git checkout -b v1.0.2 v1.0.2
 ```
++ If you want to see the code after adding HTML format
+```bash
+git checkout -b v1.0.3 v1.0.3
+```
 + If you want to know the details of each step of refactoring, please check in IDE Version Control.
