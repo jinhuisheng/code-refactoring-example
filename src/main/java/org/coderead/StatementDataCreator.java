@@ -36,7 +36,7 @@ public class StatementDataCreator {
     private Performance enrichPerformance(Performance performance) {
         PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance));
         performance.setPlay(calculator.play());
-        performance.setAmount(amountFor(performance));
+        performance.setAmount(calculator.amount());
         performance.setVolumeCredits(volumeCreditsFor(performance));
         return performance;
     }
@@ -48,33 +48,6 @@ public class StatementDataCreator {
      */
     private Play playFor(Performance perf) {
         return plays.get(perf.getPlayId());
-    }
-    /**
-     * 计算一场戏剧演出的费用
-     * @param perf 表演
-     * @return
-     */
-    private int amountFor(Performance perf) {
-        Play play = perf.getPlay();
-        int result = 0;
-        switch (play.getType()) {
-            case "tragedy":
-                result = 40000;
-                if (perf.getAudience() > 30) {
-                    result += 1000 * (perf.getAudience() - 30);
-                }
-                break;
-            case "comedy":
-                result = 30000;
-                if (perf.getAudience() > 20) {
-                    result += 10000 + 500 *(perf.getAudience() - 20);
-                }
-                result += 300 * perf.getAudience();
-                break;
-            default:
-                throw new RuntimeException("unknown type:" + play.getType());
-        }
-        return result;
     }
 
     /**
