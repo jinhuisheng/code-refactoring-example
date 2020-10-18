@@ -37,7 +37,7 @@ public class StatementDataCreator {
         PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance));
         performance.setPlay(calculator.play());
         performance.setAmount(calculator.amount());
-        performance.setVolumeCredits(volumeCreditsFor(performance));
+        performance.setVolumeCredits(calculator.volumeCredits());
         return performance;
     }
 
@@ -48,21 +48,6 @@ public class StatementDataCreator {
      */
     private Play playFor(Performance perf) {
         return plays.get(perf.getPlayId());
-    }
-
-    /**
-     * 计算观众量积分
-     * @param performance 表演
-     * @return 观众量积分
-     */
-    private int volumeCreditsFor(Performance performance) {
-        int result = 0;
-        result += Math.max(performance.getAudience() - 30, 0);
-
-        if ("comedy".equals(performance.getPlay().getType())) {
-            result += Math.floor(performance.getAudience() / 5);
-        }
-        return result;
     }
 
     /**
