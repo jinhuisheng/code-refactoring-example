@@ -30,6 +30,8 @@ public class Statement {
         StatementData data = new StatementData();
         data.setCustomer(invoice.getCustomer());
         data.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).collect(Collectors.toList()));
+        data.setTotalAmount(totalAmount(data));
+        data.setTotalVolumeCredits(totalVolumeCredits(data));
         return renderPlainText(data);
     }
 
@@ -53,18 +55,19 @@ public class Statement {
         for (Performance performance : data.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", performance.getPlay().getName(), usd(performance.getAmount()), performance.getAudience()));
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount())));
-        stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
+        stringBuilder.append(String.format("Amount owed is %s\n", usd(data.getTotalAmount())));
+        stringBuilder.append(String.format("You earned %s credits\n", data.getTotalVolumeCredits()));
         return stringBuilder.toString();
     }
 
     /**
      * 计算总金额
      * @return
+     * @param data
      */
-    private int totalAmount() {
+    private int totalAmount(StatementData data) {
         int result = 0;
-        for (Performance performance : invoice.getPerformances()) {
+        for (Performance performance : data.getPerformances()) {
             result += performance.getAmount();
         }
         return result;
@@ -73,10 +76,11 @@ public class Statement {
     /**
      * 获取观众量积分总和
      * @return 积分值
+     * @param data
      */
-    private int totalVolumeCredits() {
+    private int totalVolumeCredits(StatementData data) {
         int result = 0;
-        for (Performance performance : invoice.getPerformances()) {
+        for (Performance performance : data.getPerformances()) {
             result += performance.getVolumeCredits();
         }
         return result;
