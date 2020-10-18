@@ -34,11 +34,15 @@ public class StatementDataCreator {
     }
 
     private Performance enrichPerformance(Performance performance) {
-        PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance));
+        PerformanceCalculator calculator = createPerformanceCalculator(performance, playFor(performance));
         performance.setPlay(calculator.play());
         performance.setAmount(calculator.amount());
         performance.setVolumeCredits(calculator.volumeCredits());
         return performance;
+    }
+
+    private PerformanceCalculator createPerformanceCalculator(Performance performance, Play play) {
+        return new PerformanceCalculator(performance, play);
     }
 
     /**
