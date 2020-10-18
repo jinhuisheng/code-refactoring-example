@@ -30,6 +30,25 @@ public class Statement {
         return renderPlainText(createStatementData());
     }
 
+    public String showHtml() {
+        return renderHtml(createStatementData());
+    }
+
+    private String renderHtml(StatementData data) {
+        String title = String.format("<h1>Statement for %s</h1>\n", data.getCustomer());
+        StringBuilder result = new StringBuilder(title);
+
+        result.append("<table>\n");
+        result.append("<tr><th>play</th><th>seats</th><th>cost</th></tr>\n");
+        for (Performance performance : data.getPerformances()) {
+            result.append(String.format(" <tr><td>%s</td><td>%d</td><td>%s</td></tr>\n", performance.getPlay().getName(), performance.getAudience(), usd(performance.getAmount())));
+        }
+        result.append("</table>\n");
+        result.append(String.format("<p>Amount owed is <em>%s</em></p>\n", usd(data.getTotalAmount())));
+        result.append(String.format("<p>You earned <em>%s</em> credits</p>\n", data.getTotalVolumeCredits()));
+        return result.toString();
+    }
+
     private StatementData createStatementData() {
         StatementData data = new StatementData();
         data.setCustomer(invoice.getCustomer());

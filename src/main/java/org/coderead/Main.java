@@ -35,8 +35,8 @@ public class Main {
         List<Invoice> invoiceList = JSONObject.parseArray(invoices, Invoice.class);
         for (Invoice invoice : invoiceList) {
             Statement statement = new Statement(invoice, playMap);
-            String result = statement.show();
-            System.out.println(result);
+            System.out.println(statement.show());
+            System.out.println(statement.showHtml());
         }
 
     }
