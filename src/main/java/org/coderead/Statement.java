@@ -8,6 +8,7 @@ import org.coderead.model.StatementData;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 详单类
@@ -28,8 +29,14 @@ public class Statement {
     public String show() {
         StatementData data = new StatementData();
         data.setCustomer(invoice.getCustomer());
-        data.setPerformances(invoice.getPerformances());
+        data.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).collect(Collectors.toList()));
         return renderPlainText(data);
+    }
+
+    private Performance enrichPerformance(Performance performance) {
+        Play play = playFor(performance);
+        performance.setPlay(play);
+        return performance;
     }
 
     /**
@@ -42,7 +49,7 @@ public class Statement {
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : data.getPerformances()) {
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance)), performance.getAudience()));
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", performance.getPlay().getName(), usd(amountFor(performance)), performance.getAudience()));
         }
         stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount())));
         stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
@@ -92,7 +99,7 @@ public class Statement {
         int result = 0;
         result += Math.max(performance.getAudience() - 30, 0);
 
-        if ("comedy".equals(playFor(performance).getType())) {
+        if ("comedy".equals(performance.getPlay().getType())) {
             result += Math.floor(performance.getAudience() / 5);
         }
         return result;
@@ -113,7 +120,7 @@ public class Statement {
      * @return
      */
     private int amountFor(Performance perf) {
-        Play play = playFor(perf);
+        Play play = perf.getPlay();
         int result = 0;
         switch (play.getType()) {
             case "tragedy":
