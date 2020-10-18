@@ -27,12 +27,17 @@ public class Statement {
     }
 
     public String show() {
+        StatementData data = createStatementData();
+        return renderPlainText(data);
+    }
+
+    private StatementData createStatementData() {
         StatementData data = new StatementData();
         data.setCustomer(invoice.getCustomer());
         data.setPerformances(invoice.getPerformances().stream().map(this::enrichPerformance).collect(Collectors.toList()));
         data.setTotalAmount(totalAmount(data));
         data.setTotalVolumeCredits(totalVolumeCredits(data));
-        return renderPlainText(data);
+        return data;
     }
 
     private Performance enrichPerformance(Performance performance) {
