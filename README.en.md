@@ -26,4 +26,8 @@ git checkout -b v1.0.2 v1.0.2
 ```bash
 git checkout -b v1.0.3 v1.0.3
 ```
++ If you want to see code that uses polymorphic calculators to provide data
+```bash
+git checkout -b v1.0.4 v1.0.4
+```
 + If you want to know the details of each step of refactoring, please check in IDE Version Control.

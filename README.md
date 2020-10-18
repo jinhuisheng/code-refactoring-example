@@ -26,4 +26,8 @@ git checkout -b v1.0.2 v1.0.2
 ```bash
 git checkout -b v1.0.3 v1.0.3
 ```
++ 如果你想看到 使用多态计算器来提供数据的代码
+```bash
+git checkout -b v1.0.3 v1.0.3
+```
 + 如果你想了解每一步重构的细节，请在 IDE - Version Control 中查看
