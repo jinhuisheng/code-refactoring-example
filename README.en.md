@@ -1,36 +1,21 @@
 # code-refactoring-example
 
 #### Description
-学习《重构：改善既有代码的设计》时，参考书本示例进行的代码改造尝试。
-
-#### Software Architecture
-Software architecture description
+The first example in Chapter 1 of 《Refactoring：Improving the Design of Existing Code II》 is transformed from a javascript example to a Java example.
 
 #### Installation
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  git clone https://gitee.com/kendoziyu/code-refactoring-example.git
+2.  open the project with your IDE
 
 #### Instructions
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
++ If you want to view the code before refactoring, you can do this:
+```bash
+git checkout -b v1.0.0 v1.0.0
+```
++ If you want to see the code after the first stage of refactoring, you can do this:
+```bash
+git checkout -b v1.0.1 v1.0.1
+```
++ If you want to know the details of each step of refactoring, please check in IDE Version Control.
