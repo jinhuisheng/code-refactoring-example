@@ -28,19 +28,20 @@ public class Statement {
     public String show() {
         StatementData data = new StatementData();
         data.setCustomer(invoice.getCustomer());
+        data.setPerformances(invoice.getPerformances());
         return renderPlainText(data);
     }
 
     /**
      * 使用纯文本渲染
-     * @return
      * @param data 详单数据
+     * @return
      */
     private String renderPlainText(StatementData data) {
         String result = String.format("Statement for %s\n", data.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
-        for (Performance performance : invoice.getPerformances()) {
+        for (Performance performance : data.getPerformances()) {
             stringBuilder.append(String.format(" %s: %s (%d seats)\n", playFor(performance).getName(), usd(amountFor(performance)), performance.getAudience()));
         }
         stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount())));

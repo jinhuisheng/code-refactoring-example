@@ -1,5 +1,7 @@
 package org.coderead.model;
 
+import java.util.List;
+
 /**
  * 详单数据
  *
@@ -9,6 +11,7 @@ package org.coderead.model;
 public class StatementData {
 
     private String customer;
+    private List<Performance> performances;
 
     public String getCustomer() {
         return customer;
@@ -16,5 +19,13 @@ public class StatementData {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public List<Performance> getPerformances() {
+        return performances;
+    }
+
+    public void setPerformances(List<Performance> performances) {
+        this.performances = performances;
     }
 }
