@@ -9,7 +9,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * 客户服务类
+ * 详单类
  *
  * @author kendoziyu
  * @since 2020/10/11 0011
@@ -25,6 +25,14 @@ public class Statement {
     }
 
     public String show() {
+        return renderPlainText();
+    }
+
+    /**
+     * 使用纯文本渲染
+     * @return
+     */
+    private String renderPlainText() {
         String result = String.format("Statement for %s\n", invoice.getCustomer());
         StringBuilder stringBuilder = new StringBuilder(result);
 
