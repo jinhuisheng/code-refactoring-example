@@ -66,11 +66,7 @@ public class Statement {
      * @param data
      */
     private int totalAmount(StatementData data) {
-        int result = 0;
-        for (Performance performance : data.getPerformances()) {
-            result += performance.getAmount();
-        }
-        return result;
+        return data.getPerformances().stream().mapToInt(Performance::getAmount).sum();
     }
 
     /**
@@ -79,11 +75,7 @@ public class Statement {
      * @param data
      */
     private int totalVolumeCredits(StatementData data) {
-        int result = 0;
-        for (Performance performance : data.getPerformances()) {
-            result += performance.getVolumeCredits();
-        }
-        return result;
+        return data.getPerformances().stream().mapToInt(Performance::getVolumeCredits).sum();
     }
 
     /**
