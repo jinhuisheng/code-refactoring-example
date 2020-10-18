@@ -1,5 +1,8 @@
 package org.coderead;
 
+import org.coderead.calculator.ComedyCalculator;
+import org.coderead.calculator.PerformanceCalculator;
+import org.coderead.calculator.TragedyCalculator;
 import org.coderead.model.Invoice;
 import org.coderead.model.Performance;
 import org.coderead.model.Play;
@@ -42,7 +45,12 @@ public class StatementDataCreator {
     }
 
     private PerformanceCalculator createPerformanceCalculator(Performance performance, Play play) {
-        return new PerformanceCalculator(performance, play);
+        switch (play.getType()) {
+            case "tragedy": return new TragedyCalculator(performance, play);
+            case "comedy": return new ComedyCalculator(performance, play);
+            default:
+                throw new RuntimeException("unknown type:" + play.getType());
+        }
     }
 
     /**
