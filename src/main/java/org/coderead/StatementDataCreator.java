@@ -34,8 +34,8 @@ public class StatementDataCreator {
     }
 
     private Performance enrichPerformance(Performance performance) {
-        Play play = playFor(performance);
-        performance.setPlay(play);
+        PerformanceCalculator calculator = new PerformanceCalculator(performance, playFor(performance));
+        performance.setPlay(calculator.play());
         performance.setAmount(amountFor(performance));
         performance.setVolumeCredits(volumeCreditsFor(performance));
         return performance;
