@@ -18,4 +18,8 @@ git checkout -b v1.0.0 v1.0.0
 ```bash
 git checkout -b v1.0.1 v1.0.1
 ```
++ 如果你想看 拆分阶段后的代码
+```bash
+git checkout -b v1.0.2 v1.0.2
+```
 + 如果你想了解每一步重构的细节，请在 IDE - Version Control 中查看
