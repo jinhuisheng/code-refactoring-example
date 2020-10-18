@@ -37,12 +37,6 @@ public class PerformanceCalculator {
      * @return 观众量积分
      */
     public int volumeCredits() {
-        int result = 0;
-        result += Math.max(performance.getAudience() - 30, 0);
-
-        if ("comedy".equals(play.getType())) {
-            result += Math.floor(performance.getAudience() / 5);
-        }
-        return result;
+        return Math.max(performance.getAudience() - 30, 0);
     }
 }
