@@ -11,8 +11,8 @@ import org.coderead.model.Play;
  */
 public class PerformanceCalculator {
 
-    private Performance performance;
-    private Play play;
+    protected Performance performance;
+    protected Play play;
 
 
     public PerformanceCalculator(Performance performance, Play play) {
@@ -33,11 +33,7 @@ public class PerformanceCalculator {
         int result = 0;
         switch (play.getType()) {
             case "tragedy":
-                result = 40000;
-                if (performance.getAudience() > 30) {
-                    result += 1000 * (performance.getAudience() - 30);
-                }
-                break;
+                throw new RuntimeException("bad thing");
             case "comedy":
                 result = 30000;
                 if (performance.getAudience() > 20) {
