@@ -27,8 +27,7 @@ public class Statement {
     }
 
     public String show() {
-        StatementData data = createStatementData();
-        return renderPlainText(data);
+        return renderPlainText(createStatementData());
     }
 
     private StatementData createStatementData() {
