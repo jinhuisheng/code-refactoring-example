@@ -14,6 +14,8 @@ public class Performance {
 
     private Play play;
 
+    private int amount;
+
     public String getPlayId() {
         return playId;
     }
@@ -36,5 +38,13 @@ public class Performance {
 
     public void setPlay(Play play) {
         this.play = play;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

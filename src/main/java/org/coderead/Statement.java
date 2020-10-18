@@ -36,6 +36,7 @@ public class Statement {
     private Performance enrichPerformance(Performance performance) {
         Play play = playFor(performance);
         performance.setPlay(play);
+        performance.setAmount(amountFor(performance));
         return performance;
     }
 
@@ -49,7 +50,7 @@ public class Statement {
         StringBuilder stringBuilder = new StringBuilder(result);
 
         for (Performance performance : data.getPerformances()) {
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", performance.getPlay().getName(), usd(amountFor(performance)), performance.getAudience()));
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", performance.getPlay().getName(), usd(performance.getAmount()), performance.getAudience()));
         }
         stringBuilder.append(String.format("Amount owed is %s\n", usd(totalAmount())));
         stringBuilder.append(String.format("You earned %s credits\n", totalVolumeCredits()));
@@ -61,11 +62,11 @@ public class Statement {
      * @return
      */
     private int totalAmount() {
-        int totalAmount = 0;
+        int result = 0;
         for (Performance performance : invoice.getPerformances()) {
-            totalAmount += amountFor(performance);
+            result += performance.getAmount();
         }
-        return totalAmount;
+        return result;
     }
 
     /**
