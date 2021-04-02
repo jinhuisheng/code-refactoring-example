@@ -33,8 +33,8 @@ public class Statement {
         return statementCounter.count();
     }
 
-    private String print(StatementResult result1) {
-        StatementPrinter statementPrinter = new StatementPrinter(result1);
+    private String print(StatementResult statementResult) {
+        StatementPrinter statementPrinter = new StatementPrinter(statementResult);
         return statementPrinter.print(invoice.getCustomer());
     }
 

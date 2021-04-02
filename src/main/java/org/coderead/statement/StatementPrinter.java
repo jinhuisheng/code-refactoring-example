@@ -22,8 +22,8 @@ public class StatementPrinter {
     }
 
     private StringBuilder init(String customer) {
-        String result = String.format("Statement for %s", customer);
-        return new StringBuilder(result);
+        String begin = String.format("Statement for %s", customer);
+        return new StringBuilder(begin);
     }
 
     private void printItems(StringBuilder stringBuilder) {
