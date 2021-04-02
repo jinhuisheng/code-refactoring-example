@@ -27,4 +27,5 @@ public class Play {
     public void setType(String type) {
         this.type = type;
     }
+
 }

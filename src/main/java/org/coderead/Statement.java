@@ -1,5 +1,6 @@
 package org.coderead;
 
+import org.coderead.model.AmountStrategies;
 import org.coderead.model.Invoice;
 import org.coderead.model.Performance;
 import org.coderead.model.Play;
@@ -18,10 +19,12 @@ public class Statement {
 
     private Invoice invoice;
     private Map<String, Play> plays;
+    private AmountStrategies amountStrategies;
 
     public Statement(Invoice invoice, Map<String, Play> plays) {
         this.invoice = invoice;
         this.plays = plays;
+        amountStrategies = new AmountStrategies();
     }
 
     public String show() {
@@ -35,36 +38,30 @@ public class Statement {
 
         for (Performance performance : invoice.getPerformances()) {
             Play play = plays.get(performance.getPlayId());
-            int thisAmount = 0;
-            switch (play.getType()) {
-                case "tragedy":
-                    thisAmount = 40000;
-                    if (performance.getAudience() > 30) {
-                        thisAmount += 1000 * (performance.getAudience() - 30);
-                    }
-                    break;
-                case "comedy":
-                    thisAmount = 30000;
-                    if (performance.getAudience() > 20) {
-                        thisAmount += 10000 + 500 *(performance.getAudience() - 20);
-                    }
-                    thisAmount += 300 * performance.getAudience();
-                    break;
-                default:
-                    throw new RuntimeException("unknown type:" + play.getType());
-            }
-
-            volumeCredits += Math.max(performance.getAudience() - 30, 0);
-
-            if ("comedy".equals(play.getType())) {
-                volumeCredits += Math.floor(performance.getAudience() / 5);
-            }
-
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", play.getName(), format.format(thisAmount/100), performance.getAudience()));
+            int thisAmount = amountStrategies.countAmount(play.getType(), performance.getAudience());
+            int thisCredit = countCredit(performance, play);
+            stringBuilder.append(String.format(" %s: %s (%d seats)\n", play.getName(), format.format(thisAmount / 100), performance.getAudience()));
+            volumeCredits += thisCredit;
             totalAmount += thisAmount;
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
+        stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount / 100)));
         stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
         return stringBuilder.toString();
     }
+
+    private int countCredit(Performance performance, Play play) {
+        int thisCredit = Math.max(performance.getAudience() - 30, 0);
+        double externalCredit = countExternalCredit(performance, play);
+        thisCredit += externalCredit;
+        return thisCredit;
+    }
+
+    private double countExternalCredit(Performance performance, Play play) {
+        double externalCredit = 0;
+        if ("comedy".equals(play.getType())) {
+            externalCredit = Math.floor(performance.getAudience() / 5);
+        }
+        return externalCredit;
+    }
+
 }
