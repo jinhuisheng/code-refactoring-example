@@ -35,11 +35,15 @@ public class StatementPrinter {
     }
 
     private StringBuilder printAmounts(StringBuilder stringBuilder) {
-        return stringBuilder.append(String.format("Amount owed is %s\n", format.format(this.result.getTotalAmount() / 100)));
+        return stringBuilder.append(String.format("Amount owed is %s\n", formatNumber(this.result.getTotalAmount())));
+    }
+
+    private String formatNumber(double totalAmount) {
+        return this.format.format(totalAmount / 100);
     }
 
     private StringBuilder printItem(StringBuilder stringBuilder, StateItemResult item) {
-        String itemStr = String.format(" %s: %s (%d seats)\n", item.getName(), this.format.format(item.getAmount() / 100), item.getAudience());
+        String itemStr = String.format(" %s: %s (%d seats)\n", item.getName(), formatNumber(item.getAmount()), item.getAudience());
         return stringBuilder.append(itemStr);
     }
 
