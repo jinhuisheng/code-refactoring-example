@@ -1,22 +1,20 @@
 package org.coderead.statement;
 
-import org.coderead.model.CountStrategies;
 import org.coderead.model.Performance;
 import org.coderead.model.Play;
+import org.coderead.strategy.CountStrategy;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StatementCounter {
-    private final CountStrategies countStrategies;
     private final List<Performance> performances;
     private final Map<String, Play> plays;
 
     public StatementCounter(List<Performance> performances, Map<String, Play> plays) {
         this.performances = performances;
         this.plays = plays;
-        this.countStrategies = new CountStrategies();
     }
 
     public StatementResult count() {
@@ -27,8 +25,9 @@ public class StatementCounter {
 
     private StateItemResult getStatementItemResult(Performance performance) {
         Play play = plays.get(performance.getPlayId());
-        int thisAmount = countStrategies.countAmount(play.getType(), performance.getAudience());
-        int thisCredit = countStrategies.countCredit(play.getType(), performance.getAudience());
+        CountStrategy countStrategy = CountStrategy.getCountStrategy(play.getType());
+        int thisAmount = countStrategy.countAmount(performance.getAudience());
+        int thisCredit = countStrategy.countCredit(performance.getAudience());
         return new StateItemResult(play.getName(), performance.getAudience(), thisAmount, thisCredit);
     }
 }

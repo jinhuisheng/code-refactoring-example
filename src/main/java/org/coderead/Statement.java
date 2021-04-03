@@ -25,17 +25,16 @@ public class Statement {
     }
 
     public String show() {
-        return print(count());
+        StatementResult statementResult = count();
+        return print(statementResult);
     }
 
     private StatementResult count() {
-        StatementCounter statementCounter = new StatementCounter(invoice.getPerformances(), plays);
-        return statementCounter.count();
+        return new StatementCounter(invoice.getPerformances(), plays).count();
     }
 
     private String print(StatementResult statementResult) {
-        StatementPrinter statementPrinter = new StatementPrinter(statementResult);
-        return statementPrinter.print(invoice.getCustomer());
+        return new StatementPrinter(statementResult).print(invoice.getCustomer());
     }
 
 }
