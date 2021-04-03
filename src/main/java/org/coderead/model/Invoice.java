@@ -1,6 +1,11 @@
 package org.coderead.model;
 
+import org.coderead.statement.StateItemResult;
+import org.coderead.statement.StatementResult;
+
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 发票
@@ -28,5 +33,12 @@ public class Invoice {
 
     public void setPerformances(List<Performance> performances) {
         this.performances = performances;
+    }
+
+    public StatementResult count(Map<String, Play> plays) {
+        List<StateItemResult> statementItems = getPerformances().stream()
+                .map(performance -> performance.getStatementItemResult(plays.get(performance.getPlayId())))
+                .collect(Collectors.toList());
+        return new StatementResult(statementItems);
     }
 }

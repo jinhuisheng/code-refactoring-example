@@ -2,7 +2,6 @@ package org.coderead;
 
 import org.coderead.model.Invoice;
 import org.coderead.model.Play;
-import org.coderead.statement.StatementCounter;
 import org.coderead.statement.StatementPrinter;
 import org.coderead.statement.StatementResult;
 
@@ -30,7 +29,7 @@ public class Statement {
     }
 
     private StatementResult count() {
-        return new StatementCounter(invoice.getPerformances(), plays).count();
+        return invoice.count(plays);
     }
 
     private String print(StatementResult statementResult) {
