@@ -1,4 +1,4 @@
-package org.coderead;
+package org.coderead.strategy;
 
 public interface Calculator {
     static Calculator getCalculator(String playType) {

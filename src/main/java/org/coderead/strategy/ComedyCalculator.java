@@ -1,4 +1,4 @@
-package org.coderead;
+package org.coderead.strategy;
 
 public class ComedyCalculator implements Calculator {
     public ComedyCalculator() {

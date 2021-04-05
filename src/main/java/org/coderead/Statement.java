@@ -3,7 +3,9 @@ package org.coderead;
 import org.coderead.model.Invoice;
 import org.coderead.model.Performance;
 import org.coderead.model.Play;
+import org.coderead.strategy.Calculator;
 
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
@@ -16,55 +18,44 @@ import java.util.Map;
  */
 public class Statement {
 
-    private Invoice invoice;
-    private Map<String, Play> plays;
+    private final Invoice invoice;
+    private final Map<String, Play> plays;
+    private final NumberFormat format;
 
     public Statement(Invoice invoice, Map<String, Play> plays) {
         this.invoice = invoice;
         this.plays = plays;
+        format = NumberFormat.getCurrencyInstance(new Locale("en", "US"));
     }
 
     public String show() {
-        int totalAmount = 0;
-        int volumeCredits = 0;
-        String result = String.format("Statement for %s", invoice.getCustomer());
-        StringBuilder stringBuilder = new StringBuilder(result);
+        return MessageFormat.format("{0}{1}{2}{3}",
+                begin(),
+                getPerformanceFormats(),
+                MessageFormat.format("Amount owed is {0}\n", format.format(invoice.getTotalAmount(plays) / 100)),
+                MessageFormat.format("You earned {0} credits\n", invoice.getVolumeCredits(plays)));
+    }
 
-        Locale locale = new Locale("en", "US");
-        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+    private String begin() {
+        return String.format("Statement for %s", invoice.getCustomer());
+    }
 
+    private StringBuilder getPerformanceFormats() {
+        StringBuilder stringBuilder = new StringBuilder();
         for (Performance performance : invoice.getPerformances()) {
             Play play = plays.get(performance.getPlayId());
-            int thisAmount = 0;
-            switch (play.getType()) {
-                case "tragedy":
-                    thisAmount = 40000;
-                    if (performance.getAudience() > 30) {
-                        thisAmount += 1000 * (performance.getAudience() - 30);
-                    }
-                    break;
-                case "comedy":
-                    thisAmount = 30000;
-                    if (performance.getAudience() > 20) {
-                        thisAmount += 10000 + 500 *(performance.getAudience() - 20);
-                    }
-                    thisAmount += 300 * performance.getAudience();
-                    break;
-                default:
-                    throw new RuntimeException("unknown type:" + play.getType());
-            }
-
-            volumeCredits += Math.max(performance.getAudience() - 30, 0);
-
-            if ("comedy".equals(play.getType())) {
-                volumeCredits += Math.floor(performance.getAudience() / 5);
-            }
-
-            stringBuilder.append(String.format(" %s: %s (%d seats)\n", play.getName(), format.format(thisAmount/100), performance.getAudience()));
-            totalAmount += thisAmount;
+            stringBuilder.append(getPerformanceFormats(performance, play));
         }
-        stringBuilder.append(String.format("Amount owed is %s\n", format.format(totalAmount/100)));
-        stringBuilder.append(String.format("You earned %s credits\n", volumeCredits));
-        return stringBuilder.toString();
+        return stringBuilder;
     }
+
+    private StringBuilder getPerformanceFormats(Performance performance, Play play) {
+        StringBuilder temp = new StringBuilder();
+        Calculator calculator = Calculator.getCalculator(play.getType());
+        temp.append(MessageFormat.format(" {0}: {1} ({2} seats)\n", play.getName(),
+                this.format.format(calculator.getAmount(performance.getAudience()) / 100),
+                performance.getAudience()));
+        return temp;
+    }
+
 }
