@@ -43,13 +43,11 @@ public class Statement {
         return stringBuilder;
     }
 
-    private StringBuilder formatPerformance(Performance performance, Play play) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Calculator calculator = Calculator.getCalculator(play.getType());
-        stringBuilder.append(MessageFormat.format(" {0}: {1} ({2} seats)\n", play.getName(),
-                format(calculator.getAmount(performance.getAudience())),
-                performance.getAudience()));
-        return stringBuilder;
+    private String formatPerformance(Performance performance, Play play) {
+        return MessageFormat.format(" {0}: {1} ({2} seats)\n",
+                play.getName(),
+                format(Calculator.getCalculator(play.getType()).getAmount(performance.getAudience())),
+                performance.getAudience());
     }
 
     private String format(int amount) {
