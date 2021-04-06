@@ -38,27 +38,27 @@ public class Invoice {
         return count(plays, this::getAmount);
     }
 
+    public int getVolumeCredits(Map<String, Play> plays) {
+        return count(plays, this::getVolumeCredit);
+    }
+
+    public int count(Map<String, Play> plays, BiFunction<String, Integer, Integer> func) {
+        int total = 0;
+        for (Performance performance : getPerformances()) {
+            Play play = plays.get(performance.getPlayId());
+            total += func.apply(play.getType(), performance.getAudience());
+        }
+        return total;
+    }
+
     private int getAmount(String playType, int audience) {
         Calculator calculator = Calculator.getCalculator(playType);
         return calculator.getAmount(audience);
     }
 
-    public int getVolumeCredits(Map<String, Play> plays) {
-        return count(plays, this::getVolumeCredit);
-    }
-
     private int getVolumeCredit(String playType, int audience) {
         Calculator calculator = Calculator.getCalculator(playType);
         return calculator.getVolumeCredit(audience);
-    }
-
-    public int count(Map<String, Play> plays, BiFunction<String, Integer, Integer> func) {
-        int totalAmount = 0;
-        for (Performance performance : getPerformances()) {
-            Play play = plays.get(performance.getPlayId());
-            totalAmount += func.apply(play.getType(), performance.getAudience());
-        }
-        return totalAmount;
     }
 
 }
