@@ -1,7 +1,7 @@
 package org.coderead.strategy;
 
 public interface Calculator {
-    static Calculator getCalculator(String playType) {
+    static Calculator of(String playType) {
         try {
             return (Calculator) Class.forName(
                     getPackageName() +

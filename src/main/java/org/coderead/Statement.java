@@ -46,7 +46,7 @@ public class Statement {
     private String formatPerformance(Performance performance, Play play) {
         return MessageFormat.format(" {0}: {1} ({2} seats)\n",
                 play.getName(),
-                format(Calculator.getCalculator(play.getType()).getAmount(performance.getAudience())),
+                format(Calculator.of(play.getType()).getAmount(performance.getAudience())),
                 performance.getAudience());
     }
 

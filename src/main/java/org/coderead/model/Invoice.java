@@ -52,12 +52,12 @@ public class Invoice {
     }
 
     private int getAmount(String playType, int audience) {
-        Calculator calculator = Calculator.getCalculator(playType);
+        Calculator calculator = Calculator.of(playType);
         return calculator.getAmount(audience);
     }
 
     private int getVolumeCredit(String playType, int audience) {
-        Calculator calculator = Calculator.getCalculator(playType);
+        Calculator calculator = Calculator.of(playType);
         return calculator.getVolumeCredit(audience);
     }
 
