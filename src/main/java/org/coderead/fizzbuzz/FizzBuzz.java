@@ -3,7 +3,9 @@ package org.coderead.fizzbuzz;
 import static java.lang.String.*;
 
 public class FizzBuzz {
-    private int number;
+    public static final int FIZZ_NUMBER = 3;
+    public static final int BUZZ_NUMBER = 5;
+    private final int number;
 
     private FizzBuzz(int number) {
         this.number = number;
@@ -16,21 +18,17 @@ public class FizzBuzz {
 
     private String parse() {
         String result = "";
-        if (isFizz()) {
+        if (isDividedByOrContains(FIZZ_NUMBER)) {
             result += "Fizz";
         }
-        if (isBuzz()) {
+        if (isDividedByOrContains(BUZZ_NUMBER)) {
             result += "Buzz";
         }
         return result.isEmpty() ? valueOf(number) : result;
     }
 
-    private boolean isFizz() {
-        return dividedBy(3) || contains(3);
-    }
-
-    private boolean isBuzz() {
-        return dividedBy(5) || contains(5);
+    private boolean isDividedByOrContains(int number) {
+        return dividedBy(number) || contains(number);
     }
 
     private boolean contains(int i) {
